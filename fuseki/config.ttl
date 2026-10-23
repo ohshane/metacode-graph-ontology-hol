@@ -1,0 +1,27 @@
+@prefix fuseki: <http://jena.apache.org/fuseki#> .
+@prefix ja: <http://jena.hpl.hp.com/2005/11/Assembler#> .
+
+# Independent in-memory datasets receive the same ontology and facts from the notebook.
+<#rawService> a fuseki:Service ;
+    fuseki:name "recall-raw" ;
+    fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "query" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:update ; fuseki:name "update" ] ;
+    fuseki:dataset <#rawDataset> .
+
+<#rawDataset> a ja:RDFDataset ;
+    ja:defaultGraph [ a ja:MemoryModel ] .
+
+<#inferredService> a fuseki:Service ;
+    fuseki:name "recall-inferred" ;
+    fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "query" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:update ; fuseki:name "update" ] ;
+    fuseki:dataset <#inferredDataset> .
+
+<#inferredDataset> a ja:RDFDataset ;
+    ja:defaultGraph [
+        a ja:InfModel ;
+        ja:baseModel [ a ja:MemoryModel ] ;
+        ja:reasoner [
+            ja:reasonerURL <http://jena.hpl.hp.com/2003/OWLMiniFBRuleReasoner>
+        ]
+    ] .

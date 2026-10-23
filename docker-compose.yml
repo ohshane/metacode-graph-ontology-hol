@@ -17,6 +17,13 @@ services:
       - neo4j_logs:/logs
       - neo4j_plugins:/plugins
 
+  fuseki:
+    build: ./fuseki
+    ports:
+      - '127.0.0.1:3030:3030'
+    volumes:
+      - ./fuseki/config.ttl:/fuseki/config.ttl:ro
+
 volumes:
   neo4j_data:
   neo4j_logs:
